@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finup.dataeco.mapper.testPlatform.WebhookinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.finup.dataeco.model.testPlatform.Webhookinfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="webhook_name" property="webhookName" jdbcType="VARCHAR" />
+    <result column="job_name" property="jobName" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="belong_project_id" property="belongProjectId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_time, update_time, webhook_name, job_name, token, belong_project_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from webhookinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from webhookinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.finup.dataeco.model.testPlatform.Webhookinfo" >
+    insert into webhookinfo (id, create_time, update_time, 
+      webhook_name, job_name, token, 
+      belong_project_id)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{webhookName,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
+      #{belongProjectId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.finup.dataeco.model.testPlatform.Webhookinfo" >
+    insert into webhookinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="webhookName != null" >
+        webhook_name,
+      </if>
+      <if test="jobName != null" >
+        job_name,
+      </if>
+      <if test="token != null" >
+        token,
+      </if>
+      <if test="belongProjectId != null" >
+        belong_project_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="webhookName != null" >
+        #{webhookName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="belongProjectId != null" >
+        #{belongProjectId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.finup.dataeco.model.testPlatform.Webhookinfo" >
+    update webhookinfo
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="webhookName != null" >
+        webhook_name = #{webhookName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        job_name = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="belongProjectId != null" >
+        belong_project_id = #{belongProjectId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.finup.dataeco.model.testPlatform.Webhookinfo" >
+    update webhookinfo
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      webhook_name = #{webhookName,jdbcType=VARCHAR},
+      job_name = #{jobName,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR},
+      belong_project_id = #{belongProjectId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

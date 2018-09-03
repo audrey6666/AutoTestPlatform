@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finup.dataeco.mapper.testPlatform.TestEnvironmentMapper" >
+  <resultMap id="BaseResultMap" type="com.finup.dataeco.model.testPlatform.TestEnvironment" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="test_module_id" property="testModuleId" jdbcType="BIGINT" />
+    <result column="environment_name" property="environmentName" jdbcType="VARCHAR" />
+    <result column="server_url" property="serverUrl" jdbcType="VARCHAR" />
+    <result column="oauth_access_token_uri" property="oauthAccessTokenUri" jdbcType="VARCHAR" />
+    <result column="oauth_grant_type" property="oauthGrantType" jdbcType="VARCHAR" />
+    <result column="oauth_client_id" property="oauthClientId" jdbcType="VARCHAR" />
+    <result column="oauth_secret" property="oauthSecret" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, test_module_id, environment_name, server_url, oauth_access_token_uri, oauth_grant_type, 
+    oauth_client_id, oauth_secret, create_time, update_time
+  </sql>
+  <select id="list" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from test_environment
+    where environment_name = #{environmentName,jdbcType=VARCHAR}
+  </select>
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from test_environment
+    where environment_name = #{environmentName,jdbcType=VARCHAR}
+  </delete>
+ <!--  <insert id="insert" parameterType="com.finup.dataeco.model.testPlatform.TestEnvironment" >
+    insert into test_environment (id, test_module_id, environment_name, 
+      server_url, oauth_access_token_uri, oauth_grant_type, 
+      oauth_client_id, oauth_secret, create_time, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{testModuleId,jdbcType=BIGINT}, #{environmentName,jdbcType=VARCHAR}, 
+      #{serverUrl,jdbcType=VARCHAR}, #{oauthAccessTokenUri,jdbcType=VARCHAR}, #{oauthGrantType,jdbcType=VARCHAR}, 
+      #{oauthClientId,jdbcType=VARCHAR}, #{oauthSecret,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert> -->
+  <insert id="insert" parameterType="com.finup.dataeco.model.testPlatform.TestEnvironment" >
+    insert into test_environment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="testModuleId != null" >
+        test_module_id,
+      </if>
+      <if test="environmentName != null" >
+        environment_name,
+      </if>
+      <if test="serverUrl != null" >
+        server_url,
+      </if>
+      <if test="oauthAccessTokenUri != null" >
+        oauth_access_token_uri,
+      </if>
+      <if test="oauthGrantType != null" >
+        oauth_grant_type,
+      </if>
+      <if test="oauthClientId != null" >
+        oauth_client_id,
+      </if>
+      <if test="oauthSecret != null" >
+        oauth_secret,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="testModuleId != null" >
+        #{testModuleId,jdbcType=BIGINT},
+      </if>
+      <if test="environmentName != null" >
+        #{environmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="serverUrl != null" >
+        #{serverUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="oauthAccessTokenUri != null" >
+        #{oauthAccessTokenUri,jdbcType=VARCHAR},
+      </if>
+      <if test="oauthGrantType != null" >
+        #{oauthGrantType,jdbcType=VARCHAR},
+      </if>
+      <if test="oauthClientId != null" >
+        #{oauthClientId,jdbcType=VARCHAR},
+      </if>
+      <if test="oauthSecret != null" >
+        #{oauthSecret,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.finup.dataeco.model.testPlatform.TestEnvironment" >
+    update test_environment
+    <set >
+      <if test="testModuleId != null" >
+        test_module_id = #{testModuleId,jdbcType=BIGINT},
+      </if>
+      <if test="environmentName != null" >
+        environment_name = #{environmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="serverUrl != null" >
+        server_url = #{serverUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="oauthAccessTokenUri != null" >
+        oauth_access_token_uri = #{oauthAccessTokenUri,jdbcType=VARCHAR},
+      </if>
+      <if test="oauthGrantType != null" >
+        oauth_grant_type = #{oauthGrantType,jdbcType=VARCHAR},
+      </if>
+      <if test="oauthClientId != null" >
+        oauth_client_id = #{oauthClientId,jdbcType=VARCHAR},
+      </if>
+      <if test="oauthSecret != null" >
+        oauth_secret = #{oauthSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where environment_name = #{environmentName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.finup.dataeco.model.testPlatform.TestEnvironment" >
+    update test_environment
+    set test_module_id = #{testModuleId,jdbcType=BIGINT},
+      environment_name = #{environmentName,jdbcType=VARCHAR},
+      server_url = #{serverUrl,jdbcType=VARCHAR},
+      oauth_access_token_uri = #{oauthAccessTokenUri,jdbcType=VARCHAR},
+      oauth_grant_type = #{oauthGrantType,jdbcType=VARCHAR},
+      oauth_client_id = #{oauthClientId,jdbcType=VARCHAR},
+      oauth_secret = #{oauthSecret,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

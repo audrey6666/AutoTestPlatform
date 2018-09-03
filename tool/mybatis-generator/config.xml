@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<!--数据库驱动-->
+	<!-- flat：所有内容（主键，blob）等全部生成在一个对象中； -->
+    <classPathEntry location="mysql-connector-java-5.1.26-bin.jar"/>
+    <context id="stormDB"  defaultModelType="flat" targetRuntime="MyBatis3">
+		<!-- 注释 -->
+        <commentGenerator>
+            <property name="suppressDate" value="true"/><!-- 是否取消注释 -->
+            <property name="suppressAllComments" value="true"/><!-- 是否生成注释代时间戳-->
+        </commentGenerator>
+	<!--数据库链接地址账号密码-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://127.0.0.1:3306/testplatform" userId="root" password="root">
+             <!-- connectionURL="jdbc:mysql://10.10.231.135:3306/blacklists_rest" userId="root" password="OYLDASuPfbpsEQB6"> -->
+            <!-- connectionURL="jdbc:mysql://10.10.231.135:3306/risk_pengyuan" userId="root" password="OYLDASuPfbpsEQB6"> -->
+       <!--  connectionURL="jdbc:mysql://10.10.136.194:3306/anti_fraud?characterEncoding=UTF8" userId="black" password="p8dJUDIbDmIx8VE5"> -->
+        </jdbcConnection>
+
+        <javaTypeResolver>
+        	<!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+	<!--生成Model类存放位置-->
+	<!--生成实体类 指定包名 以及生成的地址 （可以自定义地址，但是路径不存在不会自动创建 使用Maven生成在target目录下，会自动创建） -->
+        <javaModelGenerator targetPackage="com.finup.dataeco.model.testPlatform"
+                            targetProject="../../src/main/java">
+            <!--  在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+	<!--生成映射文件存放位置-->
+	<!-- 生成MAP.XML文件 -->
+        <sqlMapGenerator targetPackage="mybatis-sqlmapper.testPlatform"
+                         targetProject="../../src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+	<!--生成Dao文件 可以配置 type="XMLMAPPER"生成xml的dao实现" -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.finup.dataeco.mapper.testPlatform"
+                             targetProject="../../src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+		<!--生成对应表及类名-->
+        <table tableName="envinfo" domainObjectName="Envinfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+         <table tableName="moduleinfo" domainObjectName="Moduleinfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+         <table tableName="projectinfo" domainObjectName="Projectinfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+         <table tableName="testcaseinfo" domainObjectName="Testcaseinfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+         <table tableName="testreports" domainObjectName="Testreports" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+         <table tableName="testsuite" domainObjectName="Testsuite" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+         <table tableName="userinfo" domainObjectName="Userinfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="usertype" domainObjectName="Usertype" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="webhookinfo" domainObjectName="Webhookinfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <!-- <table tableName="bairong_apply_loan" domainObjectName="BairongApplyLoan" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <columnOverride column="success" javaType="boolean"></columnOverride>
+        <columnOverride column="enabled" javaType="boolean"></columnOverride>
+        </table> -->
+    </context>
+</generatorConfiguration>

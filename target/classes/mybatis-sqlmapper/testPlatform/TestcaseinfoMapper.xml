@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finup.dataeco.mapper.testPlatform.TestcaseinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.finup.dataeco.model.testPlatform.Testcaseinfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="belong_project" property="belongProject" jdbcType="VARCHAR" />
+    <result column="include" property="include" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="belong_module_id" property="belongModuleId" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <association property="projectinfo" javaType="com.finup.dataeco.model.testPlatform.Projectinfo">
+    	<id column="id" property="id" jdbcType="INTEGER" />
+        <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+		<result column="responsible_name" property="responsibleName" jdbcType="VARCHAR" />
+		<result column="test_user" property="testUser" jdbcType="VARCHAR" />
+		<result column="dev_user" property="devUser" jdbcType="VARCHAR" />
+		<result column="publish_app" property="publishApp" jdbcType="VARCHAR" />
+		<result column="simple_desc" property="simpleDesc" jdbcType="VARCHAR" />
+		<result column="other_desc" property="otherDesc" jdbcType="VARCHAR" />
+     </association>
+     <association property="moduleinfo" javaType="com.finup.dataeco.model.testPlatform.Moduleinfo">
+    	<id column="id" property="id" jdbcType="INTEGER" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	    <result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+	    <result column="test_user" property="testUser" jdbcType="VARCHAR" />
+	    <result column="simple_desc" property="simpleDesc" jdbcType="VARCHAR" />
+	    <result column="other_desc" property="otherDesc" jdbcType="VARCHAR" />
+	    <result column="belong_project_id" property="belongProjectId" jdbcType="INTEGER" />
+	    <result column="lifting_time" property="liftingTime" jdbcType="TIMESTAMP" />
+     </association>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.finup.dataeco.model.testPlatform.Testcaseinfo" extends="BaseResultMap" >
+    <result column="request" property="request" jdbcType="LONGVARCHAR" />
+    <result column="interface_url" property="interfaceUrl" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_time, update_time, type, name, belong_project, include, author, belong_module_id, 
+    level
+  </sql>
+  <sql id="Blob_Column_List" >
+    request, interface_url
+  </sql>
+   <!--分页查找  -->
+   <select id="list" resultMap="BaseResultMap" parameterType="Map">
+    SELECT testcaseinfo.*,moduleinfo.module_name,projectinfo.project_name 
+	FROM `testcaseinfo` 
+	INNER JOIN moduleinfo on testcaseinfo.belong_module_id = moduleinfo.id 
+	INNER JOIN projectinfo ON moduleinfo.belong_project_id = projectinfo.id 
+    where 1=1
+    <if test="params.name != null and params.name != ''" >
+     and name = #{params.name,jdbcType=VARCHAR}
+    </if>
+    <if test="params.belongProject != null and params.belongProject != ''" >
+     and belong_project = #{params.belongProject,jdbcType=VARCHAR}
+    </if>
+    <if test="params.include != null and params.include != ''" >
+     and include = #{params.include,jdbcType=VARCHAR}
+    </if>
+    <if test="params.author != null and params.author != ''" >
+     and author = #{params.author,jdbcType=VARCHAR}
+    </if>
+    <if test="params.belongModuleId != null and params.belongModuleId != ''" >
+     and belong_module_id = #{params.belongModuleId,jdbcType=INTEGER}
+    </if>
+    <if test="params.level != null and params.level != ''" >
+     and level = #{params.level,jdbcType=VARCHAR}
+    </if>
+	 order by create_time desc
+	<if test="offset!=null and size!=null">
+	 limit #{offset},#{size}
+	</if>
+  </select>
+   <select id="count"  resultType="java.lang.Integer" parameterType="Map">
+    select COUNT(*) from testcaseinfo
+    where 1=1
+    <if test="params.name != null and params.name != ''" >
+     and name = #{params.name,jdbcType=VARCHAR}
+    </if>
+    <if test="params.belongProject != null and params.belongProject != ''" >
+     and belong_project = #{params.belongProject,jdbcType=VARCHAR}
+    </if>
+    <if test="params.include != null and params.include != ''" >
+     and include = #{params.include,jdbcType=VARCHAR}
+    </if>
+    <if test="params.author != null and params.author != ''" >
+     and author = #{params.author,jdbcType=VARCHAR}
+    </if>
+    <if test="params.belongModuleId != null and params.belongModuleId != ''" >
+     and belong_module_id = #{params.belongModuleId,jdbcType=INTEGER}
+    </if>
+    <if test="params.level != null and params.level != ''" >
+     and level = #{params.level,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="get" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from testcaseinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from testcaseinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.finup.dataeco.model.testPlatform.Testcaseinfo" >
+    insert into testcaseinfo (id, create_time, update_time, 
+      type, name, belong_project, 
+      include, author, belong_module_id, 
+      level, request, interface_url
+      )
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{belongProject,jdbcType=VARCHAR}, 
+      #{include,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{belongModuleId,jdbcType=INTEGER}, 
+      #{level,jdbcType=VARCHAR}, #{request,jdbcType=LONGVARCHAR}, #{interfaceUrl,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.finup.dataeco.model.testPlatform.Testcaseinfo" >
+    insert into testcaseinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="belongProject != null" >
+        belong_project,
+      </if>
+      <if test="include != null" >
+        include,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="belongModuleId != null" >
+        belong_module_id,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="request != null" >
+        request,
+      </if>
+      <if test="interfaceUrl != null" >
+        interface_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="belongProject != null" >
+        #{belongProject,jdbcType=VARCHAR},
+      </if>
+      <if test="include != null" >
+        #{include,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="belongModuleId != null" >
+        #{belongModuleId,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="request != null" >
+        #{request,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="interfaceUrl != null" >
+        #{interfaceUrl,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.finup.dataeco.model.testPlatform.Testcaseinfo" >
+    update testcaseinfo
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="belongProject != null" >
+        belong_project = #{belongProject,jdbcType=VARCHAR},
+      </if>
+      <if test="include != null" >
+        include = #{include,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="belongModuleId != null" >
+        belong_module_id = #{belongModuleId,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="request != null" >
+        request = #{request,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="interfaceUrl != null" >
+        interface_url = #{interfaceUrl,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.finup.dataeco.model.testPlatform.Testcaseinfo" >
+    update testcaseinfo
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      belong_project = #{belongProject,jdbcType=VARCHAR},
+      include = #{include,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      belong_module_id = #{belongModuleId,jdbcType=INTEGER},
+      level = #{level,jdbcType=VARCHAR},
+      request = #{request,jdbcType=LONGVARCHAR},
+      interface_url = #{interfaceUrl,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.finup.dataeco.model.testPlatform.Testcaseinfo" >
+    update testcaseinfo
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      belong_project = #{belongProject,jdbcType=VARCHAR},
+      include = #{include,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      belong_module_id = #{belongModuleId,jdbcType=INTEGER},
+      level = #{level,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

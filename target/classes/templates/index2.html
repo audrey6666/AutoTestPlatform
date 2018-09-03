@@ -1,0 +1,12 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <title>hello</title>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<!--/*@thymesVar id="name" type="java.lang.String"*/-->
+		<!--  -->
+		<p th:text="'Hello！----> ' + ${hello} + '!'" >静态文件显示的值，动态时会被后台的数据替换掉</p>
+	</body>
+</html> 

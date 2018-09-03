@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="base::common-header">
+	<meta charset="UTF-8"></meta>
+	<title th:text="#{head.title}">project list</title>
+</head>
+<body id="all-body">
+	<div th:include="base :: #base-body"></div><!-- 引用base.html中id=base-body的片段 -->
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="my-edit">
+        <div class="am-modal-dialog">
+            <div style="font-size: medium;" class="am-modal-hd">AutoTestPlatform</div>
+            <div class="am-modal-bd">
+                <form class="form-horizontal" id="list_project">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="index"
+                               style="font-weight: inherit; font-size: small " hidden="">索引值：</label>
+                        <div class="col-sm-9">
+                            <input name="id" type="text" class="form-control" id="index"
+                                   placeholder="索引值" value="" hidden=""/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="project_name"
+                               style="font-weight: inherit; font-size: small ">项目名称：</label>
+                        <div class="col-sm-9">
+                            <input name="projectName" type="text" class="form-control" id="project_name"
+                                   placeholder="项目名称" value="" readonly=""/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="responsible_name"
+                               style="font-weight: inherit; font-size: small ">负责人：</label>
+                        <div class="col-sm-9">
+                            <input name="responsibleName" type="text" id="responsible_name" class="form-control"
+                                   placeholder="负责人" value=""/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="test_user"
+                               style="font-weight: inherit; font-size: small ">测试人员：</label>
+                        <div class="col-sm-9">
+                            <input name="testUser" type="text" id="test_user" class="form-control"
+                                   placeholder="测试人员" value=""/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="dev_user"
+                               style="font-weight: inherit; font-size: small ">开发人员：</label>
+                        <div class="col-sm-9">
+                            <input name="devUser" type="text" id="dev_user" class="form-control"
+                                   placeholder="开发人员" value=""/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="publish_app"
+                               style="font-weight: inherit; font-size: small ">发布应用：</label>
+                        <div class="col-sm-9">
+                            <input name="publishApp" type="text" id="publish_app" class="form-control"
+                                   placeholder="发布应用" value=""/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="simple_desc"
+                               style="font-weight: inherit; font-size: small ">简要描述：</label>
+                        <div class="col-sm-9">
+                            <input name="simple_desc" type="text" id="simple_desc" class="form-control"
+                                   placeholder="简要描述" value=""/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="other_desc"
+                               style="font-weight: inherit; font-size: small ">其他信息：</label>
+                        <div class="col-sm-9">
+                            <input name="other_desc" type="text" id="other_desc" class="form-control"
+                                   placeholder="其他信息" value=""/>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel="">取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm="">提交</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="am-modal am-modal-confirm" tabindex="-1" id="my-invalid">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">AutoTestPlatform</div>
+            <div class="am-modal-bd">
+                亲，此操作会强制删除该项目下所有模块和用例，请谨慎操作！！！
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel="">取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm="">确定</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="am-modal am-modal-confirm" tabindex="-1" id="select_env">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">AutoTestPlatform</div>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-3"
+                           style="font-weight: inherit; font-size: small ">运行环境:</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="env_name" name="env_name">
+                            <option value="">自带环境</option>
+                            {% for foo in env %}
+                                <option value="{{ foo.base_url }}">{{ foo.env_name }}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="report_name"
+                           style="font-weight: inherit; font-size: small ">报告名称：</label>
+                    <div class="col-sm-8">
+                        <input name="report_name" type="text" id="report_name" class="form-control"
+                               placeholder="默认时间戳命名" value="" readonly=""/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3"
+                           style="font-weight: inherit; font-size: small ">执行方式:</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="mode" name="mode">
+                            <option value="true">同步(执行完立即返回报告)</option>
+                            <option value="false">异步(后台执行，完毕后可查看报告)</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel="">取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm="">确定</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-biaogelist">
+        <div class="listbiaoti am-cf">
+            <ul class="am-icon-flag on"> 项目列表</ul>
+            <dl class="am-icon-home" style="float: right;"> 当前位置： 项目管理 > <a href="#">项目展示</a></dl>
+            <dl>
+                <button type="button" class="am-btn am-btn-danger am-round am-btn-xs am-icon-plus"
+                        onclick="location='/api/add_project/'">新增项目
+                </button>
+                <button type="button" class="am-btn am-btn-primary am-round am-btn-xs am-icon-plus"
+                        data-toggle="modal" data-target="#bulk_uploadcase">批量导入
+                </button>
+                <button type="button" class="am-btn am-btn-danger am-round am-btn-xs am-icon-bug"
+                        onclick="run_test('batch', '/api/run_batch_test/', 'project')">运行
+                </button>
+            </dl>
+        </div>
+
+        <div class="am-btn-toolbars am-btn-toolbar am-kg am-cf">
+        	<form id="pro_filter" method="get" th:object="${paging}" action="/api/project_list_page">
+            <ul>
+                <li style="padding-top: 5px">
+                 <input  id="project-name" type="text" name="projectName" th:value="${projectName}" class="am-form-field am-input-sm am-input-xm" placeholder="项目名称"/>
+                </li>
+                <li>
+                <li style="padding-top: 5px">
+                 <input  id="responsible-name" type="text" name="responsibleName" th:value="${responsibleName}" class="am-form-field am-input-sm am-input-xm" placeholder="负责人"/>
+                </li>
+                <button class="am-btn am-radius am-btn-xs am-btn-success" style="margin-top: -1px;" >查询</button>
+                </li>
+            </ul>
+            <table width="100%" class="am-table am-table-bordered am-table-radius am-table-striped" >
+                <thead>
+                <tr class="am-success">
+                    <th class="table-check"><input type="checkbox" id="select_all"/></th>
+                    <th class="table-title">序号</th>
+                    <th class="table-type">项目名称</th>
+                    <th class="table-type">负责人</th>
+                    <th class="table-title">发布应用</th>
+                    <th class="table-title">测试人员</th>
+                    <th class="table-title">模块/Suite/用例/配置</th>
+                    <th class="table-date am-hide-sm-only">创建时间</th>
+                    <th width="163px" class="table-set">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="d : ${paging.data}">
+                        <td><input type="checkbox" th:name="|project_${ d.id }|" th:value="${ d.id }"/></td>
+                        <td th:text="${ d.id }">id</td>
+                        <td><a href="#"
+                        	th:onclick="'javascript:edit(\''+${ d.id }+'\',\''+${ d.projectName }+'\',\''+${ d.responsibleName }+'\',\''+${ d.testUser }+'\',\''+${ d.devUser }+'\',\''+${ d.publishApp }+'\',\''+${ d.simpleDesc }+'\',\''+${ d.otherDesc }+'\')'"
+                               th:text="${ d.projectName }">projectName</a>
+                        </td>
+                        <td th:text="${ d.responsibleName }">responsibleName</td>
+                        <td th:text="${ d.publishApp }">publishApp</td>
+                        <td th:text="${ d.testUser }">testUser</td>
+
+                        {% for key, value in sum.items %}
+                            {% ifequal foo.id key %}
+                                <td>{{ value }}</td>
+                            {% endifequal %}
+                        {% endfor %}
+
+                        <td class="am-hide-sm-only"  th:text="${#dates.format(d.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
+                        <td>
+                            <div class="am-btn-toolbar">
+                                <div class="am-btn-group am-btn-group-xs">
+                                    <button type="button"
+                                            class="am-btn am-btn-default am-btn-xs am-text-secondary am-round"
+                                            data-am-popover="{content: '运行', trigger: 'hover focus'}"
+                                            onclick="'javascript:run_test(\''+${ d.id }+'\', '/api/run_test/', 'project')'">
+                                        <span class="am-icon-bug"></span></button>
+                                    <button type="button"
+                                            class="am-btn am-btn-default am-btn-xs am-text-secondary am-round"
+                                            data-am-popover="{content: '编辑', trigger: 'hover focus'}"
+                                            th:onclick="'javascript:edit(\''+${ d.id }+'\',\''+${ d.projectName }+'\',\''+${ d.responsibleName }+'\',\''+${ d.testUser }+'\',\''+${ d.devUser }+'\',\''+${ d.publishApp }+'\',\''+${ d.simpleDesc }+'\',\''+${ d.otherDesc }+'\')'"
+                      > <span class="am-icon-pencil-square-o"></span></button>
+                                    <button type="button"
+                                            class="am-btn am-btn-default am-btn-xs am-text-danger am-round"
+                                            data-am-popover="{content: '删除', trigger: 'hover focus'}"
+                                            th:onclick="'javascript:invalid(\''+${ d.id }+'\')'">
+                                            <span class="am-icon-trash-o"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="am-btn-group am-btn-group-xs">
+                <button type="button" class="am-btn am-btn-default" onclick="location='/api/add_project_page'"><span
+                        class="am-icon-plus"></span> 新增
+                </button>
+            </div>
+
+            <!-- <ul id="pageLimit" class="am-pagination am-fr" th:value="${paging.totalPage}" ></ul> -->
+            <div id="Paginator" style="text-align: center" th:value="${pagNum}">
+            	<ul id="pageLimit" th:value="${paging.totalPage}"></ul>
+            </div>
+            <hr/>
+        </form>
+        
+        </div>
+        
+    </div>
+   <script type="text/javascript">
+   		
+	   $('#pageLimit').bootstrapPaginator({
+	       currentPage: $('#Paginator').attr("value"),//当前的请求页面。
+	       totalPages: $('#pageLimit').attr("value"),//一共多少页。
+	       size:"normal",//应该是页眉的大小。
+	       bootstrapMajorVersion: 3,//bootstrap的版本要求。
+	       alignment:"right",
+	       numberOfPages:8,//一页列出多少数据。
+	       itemTexts: function (type, page, current) {//如下的代码是将页眉显示的中文显示我们自定义的中文。
+	           switch (type) {
+	           case "first": return "首页";
+	           case "prev": return "上一页";
+	           case "next": return "下一页";
+	           case "last": return "末页";
+	           case "page": return page;
+	           }//默认显示的是第一页。
+	       },
+	     onPageClicked: function (event, originalEvent, type, page){//给每个页眉绑定一个事件，其实就是ajax请求，其中page变量为当前点击的页上的数字。
+	   	  $.ajax({
+	               url:"/api/project_list_page",
+	               type:'GET',
+	               data:{
+	               	"page":page,
+	               	"projectName":$("#project-name").val(),
+	               	"responsibleName":$("#responsible-name").val()
+	               },
+	               success:function (callback) {
+	               	/* alert(callback); */
+	               	$("#all-body").html(callback);
+               		/* $("tbody").empty(); */
+               	/* var data = callback.data;
+               	var str = "";
+                 for (i in data) {
+                     str += '<tr>' +
+                     '<td >' + data[i].id + '</td>' +
+                     '<td>' + data[i].id + '</td>' +
+                     '<td>' + data[i].projectName + '</td>' +
+                     '<td>' + data[i].responsibleName + '</td>' +
+                     '<td>' + data[i].publishApp + '</td>' +
+                     '<td>' + data[i].testUser + '</td>' +
+                     '<td>' + '888888' + '</td>' +
+                     '<td>' + data[i].createTime + '</td>' +
+                     '<td>' + '操作' + '</td>' +
+                     '</tr>';
+                 }
+                 $("tbody").html(str); */
+
+                }
+          	 })
+	       }
+	   }); 
+   
+        function edit(id, pro_name, responsible_name, test_user, dev_user, publish_app, simple_desc, other_desc) {
+            $('#index').val(id);
+            $('#project_name').val(pro_name);
+            $('#responsible_name').val(responsible_name);
+            $('#test_user').val(test_user);
+            $('#dev_user').val(dev_user);
+            $('#publish_app').val(publish_app);
+            $('#simple_desc').val(simple_desc);
+            $('#other_desc').val(other_desc);
+            $('#my-edit').modal({
+                relatedTarget: this,
+                onConfirm: function () {
+                    update_data_ajax('#list_project', '/api/update_projectinfo')
+                },
+                onCancel: function () {
+                }
+            });
+        }
+
+        function invalid(name) {
+            $('#my-invalid').modal({
+                relatedTarget: this,
+                onConfirm: function () {
+                    del_data_ajax(name, '/api/delete_projectinfo')
+                },
+                onCancel: function () {
+                }
+            });
+        }
+
+        $('#mode').change(function () {
+            if ($('#mode').val() === 'false') {
+                $('#report_name').removeAttr("readonly");
+            } else {
+                $('#report_name').attr('readonly', 'readonly');
+            }
+        });
+
+        function run_test(mode, url, type) {
+            if (mode === 'batch') {
+                if ($("input:checked").size() === 0) {
+                    myAlert("请至少选择一个项目运行！");
+                    return;
+                }
+            }
+            $('#select_env').modal({
+                relatedTarget: this,
+                onConfirm: function () {
+                    var data = {
+                        "id": $("#project_list").serializeJSON(),
+                        "env_name": $('#env_name').val(),
+                        "type": type,
+                        'report_name': $('#report_name').val()
+                    };
+                    if (mode !== 'batch') {
+                        data["id"] = mode;
+                    }
+                    if ($('#mode').val() === 'true') {
+                        if (mode === 'batch') {
+                            var json2map = JSON.stringify(data['id']);
+                            var obj = JSON.parse(json2map);
+                            obj['env_name'] = data['env_name'];
+                            obj['type'] = data['type'];
+                            post('/api/run_batch_test/', obj);
+                        } else {
+                            post('/api/run_test/', data);
+                        }
+                    } else {
+                        $.ajax({
+                            type: 'post',
+                            url: url,
+                            data: JSON.stringify(data),
+                            contentType: "application/json",
+                            success: function (data) {
+                                myAlert(data);
+                            },
+                            error: function () {
+                                myAlert('Sorry，服务器可能开小差啦, 请重试!');
+                            }
+                        });
+                    }
+                },
+                onCancel: function () {
+                }
+            });
+        }
+        
+        $('#select_all').click(function () {
+            var isChecked = $(this).prop("checked");
+            $("input[name^='project']").prop("checked", isChecked);
+        });
+        
+       
+    </script>
+
+</body>
+</html>

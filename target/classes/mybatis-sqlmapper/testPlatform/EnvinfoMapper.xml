@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finup.dataeco.mapper.testPlatform.EnvinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.finup.dataeco.model.testPlatform.Envinfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="env_name" property="envName" jdbcType="VARCHAR" />
+    <result column="base_url" property="baseUrl" jdbcType="VARCHAR" />
+    <result column="simple_desc" property="simpleDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_time, update_time, env_name, base_url, simple_desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from envinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from envinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.finup.dataeco.model.testPlatform.Envinfo" >
+    insert into envinfo (id, create_time, update_time, 
+      env_name, base_url, simple_desc
+      )
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{envName,jdbcType=VARCHAR}, #{baseUrl,jdbcType=VARCHAR}, #{simpleDesc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.finup.dataeco.model.testPlatform.Envinfo" >
+    insert into envinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="envName != null" >
+        env_name,
+      </if>
+      <if test="baseUrl != null" >
+        base_url,
+      </if>
+      <if test="simpleDesc != null" >
+        simple_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="envName != null" >
+        #{envName,jdbcType=VARCHAR},
+      </if>
+      <if test="baseUrl != null" >
+        #{baseUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleDesc != null" >
+        #{simpleDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.finup.dataeco.model.testPlatform.Envinfo" >
+    update envinfo
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="envName != null" >
+        env_name = #{envName,jdbcType=VARCHAR},
+      </if>
+      <if test="baseUrl != null" >
+        base_url = #{baseUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleDesc != null" >
+        simple_desc = #{simpleDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.finup.dataeco.model.testPlatform.Envinfo" >
+    update envinfo
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      env_name = #{envName,jdbcType=VARCHAR},
+      base_url = #{baseUrl,jdbcType=VARCHAR},
+      simple_desc = #{simpleDesc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

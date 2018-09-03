@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common-header">
+    <meta charset="utf-8"></meta>
+    <!-- 指定IE和Chrome使用最新版本渲染当前页面 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"></meta>
+    <title th:text="#{head.title}">block title endblock </title>
+    <meta name="keywords" content="index"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes"></meta>
+    <meta name="renderer" content="webkit"></meta>
+    <!-- 禁止百度自动转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp"></meta>
+    <meta name="apple-mobile-web-app-title" content="AutoTestPlatform"></meta>
+    
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap-datetimepicker.min.css"></link>
+    <link rel="stylesheet" href="../bootstrap-fileinput/css/fileinput.css"></link>
+    <link rel="stylesheet" href="../bootstrap-fileinput/css/fileinput-rtl.css"></link>
+    <link rel="stylesheet" href="../bootstrap-fileinput/themes/explorer-fa/theme.css"></link>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css"></link>
+    <link rel="stylesheet" href="../assets/css/admin.css"></link>
+    <link rel="stylesheet" href="../assets/css/common.css"></link>
+    <link rel="stylesheet" href="../assets/css/jquery.json-viewer.css"></link>
+
+    <script src="../bootstrap/js/jquery.min.js"></script>
+    <script src="../bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+  	<script src="../bootstrap/js/bootstrap-modal.js"></script>
+    <script src="../bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="../bootstrap-fileinput/js/locales/zh.js"></script>
+    <script src="../bootstrap-fileinput/js/plugins/sortable.js"></script>
+    <script src="../bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="../bootstrap-fileinput/js/locales/fr.js"></script>
+    <script src="../bootstrap-fileinput/themes/explorer-fa/theme.js"></script>
+    <script src="../bootstrap-fileinput/themes/fa/theme.js"></script>
+
+    <script src="../assets/js/amazeui.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/commons.js"></script>
+    <script src="../assets/js/jquery.json-viewer.js"></script>
+    
+</head>
+<body class="modal-open" id="base-body">
+
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">AutoTestPlatform</div>
+        <div class="am-modal-bd" id="my-alert_print">
+            Sorry，服务器可能开小差啦, 请重试!
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn">确定</span>
+        </div>
+    </div>
+</div>
+<div class="am-cf admin-main">
+
+    <div class="nav-navicon admin-main admin-sidebar">
+
+
+        <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;" th:text= "欢迎您：" + ${ account }> 欢迎您：美女 &nbsp;&nbsp;<a
+                href='/api/log_out'>注 销</a></div>
+        <div class="sideMenu">
+            <h3 class="am-icon-flag"><em></em> <a href="#">项目管理</a></h3>
+            <ul>
+                <li><a href="/api/project_list">项 目 列 表</a></li>
+                <li><a href="/api/add_project">新 增 项 目</a></li>
+            </ul>
+            <h3 class="am-icon-cart-plus"><em></em> <a href="#"> 模块管理</a></h3>
+            <ul>
+                <li><a href="/api/module_list">模 块 列 表</a></li>
+                <li><a href="/api/add_module">新 增 模 块</a></li>
+            </ul>
+            <h3 class="am-icon-volume-up"><em></em> <a href="#">用例管理</a></h3>
+            <ul>
+                <li><a href="/api/test_list">用 例 列 表</a></li>
+                <li><a href="/api/config_list">配 置 列 表</a></li>
+                <li><a href="/api/database_config_list">数 据 库 配 置 列 表</a></li>
+                <li><a href="/api/add_config">新 增 配 置</a></li>
+                <li><a href="/api/add_case">新 增 用 例</a></li>
+            </ul>
+            <h3 class="am-icon-users"><em></em> <a href="#">接口管理</a></h3>
+            <ul>
+                <li>待 开 发</li>
+            </ul>
+            <h3 class="am-icon-volume-up"><em></em> <a href="#">报告管理</a></h3>
+            <ul>
+                <li><a href="#">待开发</a></li>
+            </ul>
+            <h3 class="am-icon-gears"><em></em> <a href="#">系统设置</a></h3>
+            <ul>
+                <li>待开发</li>
+            </ul>
+        </div>
+        <!-- sideMenu End -->
+    </div>
+
+    <div class="daohang">
+        <ul>
+            <li>
+                <button type="button" class="am-btn am-btn-default am-radius am-btn-xs"> 返回首页 <a
+                        href="/api/index" class="am-close am-close-spin">~</a></button>
+            </li>
+            <li>
+                <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">新增模块<a
+                        href="/api/add_module" class="am-close am-close-spin">~</a>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">新增接口<a
+                        href="/api/add_api" class="am-close am-close-spin">~</a>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">新增用例<a
+                        href="/api/add_case" class="am-close am-close-spin">~</a>
+                </button>
+            </li>
+        </ul>
+    </div>
+    <form id="form" action="/api/upload/" method="post" enctype="multipart/form-data">
+        <div class="am-modal am-modal-confirm" tabindex="-1" id="bulk_uploadcase">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">
+                    <h5 class="modal-title" id="AutoTestPlatform">AutoTestPlatform</h5>
+                </div>
+                <div class="am-modal-bd" id="uploadfile">
+                    <input id="input-b9" name="file" type="file" class="file"></input>
+                    <div id="kartik-file-errors"></div>
+                </div>
+                <!--<div class="am-modal-footer">-->
+                <!--<span class="am-modal-btn" data-am-modal-cancel>取消</span>-->
+                <!--<span class="am-modal-btn" data-am-modal-confirm>确定</span>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        $(".sideMenu").slide({
+            titCell: "h3", //鼠标触发对象
+            targetCell: "ul", //与titCell一一对应，第n个titCell控制第n个targetCell的显示隐藏
+            effect: "slideDown", //targetCell下拉效果
+            delayTime: 300, //效果时间
+            triggerTime: 150, //鼠标延迟触发时间（默认150）
+            defaultPlay: true,//默认是否执行效果（默认true）
+            returnDefault: true //鼠标从.sideMen移走后返回默认状态（默认false）
+        });
+    </script>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finup.dataeco.mapper.testPlatform.TestsuiteMapper" >
+  <resultMap id="BaseResultMap" type="com.finup.dataeco.model.testPlatform.Testsuite" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="suite_name" property="suiteName" jdbcType="VARCHAR" />
+    <result column="belong_project_id" property="belongProjectId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.finup.dataeco.model.testPlatform.Testsuite" extends="BaseResultMap" >
+    <result column="include" property="include" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_time, update_time, suite_name, belong_project_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    include
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from testsuite
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from testsuite
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.finup.dataeco.model.testPlatform.Testsuite" >
+    insert into testsuite (id, create_time, update_time, 
+      suite_name, belong_project_id, include
+      )
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{suiteName,jdbcType=VARCHAR}, #{belongProjectId,jdbcType=INTEGER}, #{include,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.finup.dataeco.model.testPlatform.Testsuite" >
+    insert into testsuite
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="suiteName != null" >
+        suite_name,
+      </if>
+      <if test="belongProjectId != null" >
+        belong_project_id,
+      </if>
+      <if test="include != null" >
+        include,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="suiteName != null" >
+        #{suiteName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongProjectId != null" >
+        #{belongProjectId,jdbcType=INTEGER},
+      </if>
+      <if test="include != null" >
+        #{include,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.finup.dataeco.model.testPlatform.Testsuite" >
+    update testsuite
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="suiteName != null" >
+        suite_name = #{suiteName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongProjectId != null" >
+        belong_project_id = #{belongProjectId,jdbcType=INTEGER},
+      </if>
+      <if test="include != null" >
+        include = #{include,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.finup.dataeco.model.testPlatform.Testsuite" >
+    update testsuite
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      suite_name = #{suiteName,jdbcType=VARCHAR},
+      belong_project_id = #{belongProjectId,jdbcType=INTEGER},
+      include = #{include,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.finup.dataeco.model.testPlatform.Testsuite" >
+    update testsuite
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      suite_name = #{suiteName,jdbcType=VARCHAR},
+      belong_project_id = #{belongProjectId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

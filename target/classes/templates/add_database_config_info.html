@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="base::common-header">
+	<meta charset="UTF-8"></meta>
+	<title>add database config</title>
+</head>
+<body>
+	<div th:include="base :: #base-body"></div><!-- 引用base.html中id=base-body的片段 -->
+    <div class="admin-biaogelist">
+
+        <div class="listbiaoti am-cf">
+            <ul class="am-icon-flag on"> 数据库配置编辑</ul>
+            <dl class="am-icon-home" style="float: right;">当前位置： 用例管理 > <a href="#">新增数据库配置</a></dl>
+        </div>
+
+        <div class="am-tabs am-margin">
+            <ul class="am-tabs-nav am-nav am-nav-tabs" id="tab-test">
+                <li><a href="javascript:;" data-target="#tab1">数据库连接信息</a></li>
+                <li><a href="javascript:;" data-target="#tab2">variables</a></li>
+            </ul>
+
+            <div class="am-tabs-bd">
+                <div class="am-tab-panel" id="tab1">
+                    <form class="form-horizontal" id="form_database_config">
+                        <div class="form-group has-feedback has-info">
+                            <label for="case_name" class="col-md-2 control-label text-info" style="font-size: 14px;">连接名称:</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="database_connect_name" placeholder="连接名称"
+                                       name="database_connect_name"
+                                       value=""></input>
+                                <span class="glyphicon glyphicon-certificate form-control-feedback"
+                                      aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback has-info">
+                            <label for="include" class="col-md-2 control-label text-info"
+                                   style="font-size: 14px;">数据库IP地址:</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="database_ip"
+                                       placeholder="请输入数据库IP地址"
+                                       name="database_ip"
+                                       value=""></input>
+                                <span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback has-info">
+                            <label for="include" class="col-md-2 control-label text-info"
+                                   style="font-size: 14px;">数据库端口:</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="database_port"
+                                       placeholder="请输入数据库端口"
+                                       name="database_port"
+                                       value=""></input>
+                                <span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback has-info">
+                            <label for="include" class="col-md-2 control-label text-info"
+                                   style="font-size: 14px;">用户名:</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="database_user"
+                                       placeholder="请输入数据库用户名"
+                                       name="database_user"
+                                       value=""></input>
+                                <span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback has-info">
+                            <label for="author" class="col-md-2 control-label text-info"
+                                   style="font-size: 14px;">密码:</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="database_pwd" placeholder="请输入数据库密码" name="database_pwd"
+                                       value=""></input>
+                                <span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback has-info">
+                            <label for="author" class="col-md-2 control-label text-info"
+                                   style="font-size: 14px;">数据库名称:</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="database_name" placeholder="请输入要连接的数据库" name="database_name"
+                                       value=""></input>
+                                <span class="glyphicon glyphicon-user form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="am-tab-panel" id="tab2">
+                    <button class="btn btn-info" value="添 加" onclick="addNewRow(#variables)">add variables</button>
+                    <button class="btn btn-danger" value="删 除" onclick="removeRow(#variables)">del variables</button>
+                    <form id="form_variables">
+                        <table class="table table-hover table-condensed table-bordered table-striped" id="variables">
+                            <caption>Variables:</caption>
+                            <thead>
+                            <tr class="active text-success">
+                                <th width="5%" align="center">Option</th>
+                                <th width="30%" align="center">Key</th>
+                                <th width="5%" align="center">Data Type</th>
+                                <th width="60%" align="center">Value</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="am-form-group am-cf">
+            <div class="you" style="margin-left: 11%;">
+                <button type="button" class="am-btn am-btn-success am-radius" onclick="database_config_ajax()">点 击 提 交
+                </button>&nbsp;
+                &raquo; &nbsp;
+                <a type="submit" href="/api/add_config_page" class="am-btn am-btn-secondary am-radius">新 增 配 置</a>
+
+            </div>
+        </div>
+        <table class="table table-hover table-condensed table-bordered table-striped" id="variables">
+            <div class="foods">
+                <dl><a href="" title="返回头部" class="am-icon-btn am-icon-arrow-up"></a></dl>
+            </div>
+
+        </table>
+    </div>
+    <script>
+        index = 1;
+
+        function addNewRow(id) {
+            var tabObj = document.getElementById(id);//获取添加数据的表格
+            var rowsNum = tabObj.rows.length;  //获取当前行数
+            var attribute = id;
+            var style = 'width:100%; border: none';
+            var cellHtml1 = "<input type='text' name='cell1_key" + id + index + "'  value='' style='" + style + "' />";
+            var cellHtml2 = "<input type='text' name='cell2_value" + id + index + "' value='' style='" + style + "' />";
+            var cellHtml3 = "<input type='text' name='cell3_value" + id + index + "' value='' style='" + style + "' />";
+            var cellDataType = "<select name='cell_data_type" + id + index + "' class='form-control' style='height: 25px; font-size: 15px; " +
+                "padding-top: 0px; padding-left: 0px; border: none'> " +
+                "<option>string</option><option>int</option><option>float</option><option>boolean</option></select>";
+
+            var myNewRow = tabObj.insertRow(rowsNum);
+            var newTdObj0 = myNewRow.insertCell(0);
+            var newTdObj1 = myNewRow.insertCell(1);
+            var newTdObj2 = myNewRow.insertCell(2);
+
+
+            newTdObj0.innerHTML = "<input type='checkbox' name='" + attribute + "' id='chkArr_" + index + "' style='width:55px' />";
+            newTdObj1.innerHTML = cellHtml1;
+            if (id === 'variables' || id === 'data') {
+                var newTdObj3 = myNewRow.insertCell(3);
+                newTdObj2.innerHTML = cellDataType;
+                newTdObj3.innerHTML = cellHtml3;
+            } else if (id === 'validate') {
+                var newTdObj3 = myNewRow.insertCell(3);
+                newTdObj2.innerHTML = '<select name="cell_2comparator" + id + index + 'class="form-control" style="height: 25px; font-size: 15px; " +
+                    'padding-top: 0px; padding-left: 0px; border: none'> ' +
+                    '<option>equals</option> <option>contains</option> <option>startswith</option> <option>endswith</option> <option>regex_match</option> <option>type_match</option> <option>contained_by</option> <option>less_than</option> <option>less_than_or_equals</option> <option>greater_than</option> <option>greater_than_or_equals</option> <option>not_equals</option> <option>string_equals</option> <option>length_equals</option> <option>length_greater_than</option> <option>length_greater_than_or_equals</option> <option>length_less_than</option> <option>length_less_than_or_equals</option></select>';
+
+                newTdObj3.innerHTML = cellDataType;
+                var newTdObj4 = myNewRow.insertCell(4);
+                newTdObj4.innerHTML = cellHtml3;
+            } else {
+                newTdObj2.innerHTML = cellHtml2;
+            }
+            index++;
+
+        }
+
+        /*表格删除行*/
+        function removeRow(id) {
+            var attribute = id;
+            var chkObj = document.getElementsByName(attribute);
+            var tabObj = document.getElementById(id);
+            for (i in chkObj) {
+                if (chkObj[i].checked) {
+                    tabObj.deleteRow(i + 1);
+                    i = -1;
+                }
+            }
+        }
+
+        $("#tab-test").on("click", "li", function () {
+            $(this).addClass("am-active").siblings("li").removeClass("am-active");
+            var target = $(this).children("a").attr("data-target");
+            $(target).addClass("am-active").siblings(".am-tab-panel").removeClass("am-active");
+        }).find("li").eq(0).trigger("click");
+
+        $('#DataType').on('change', function () {
+            if ($('#DataType').val() == 'json') {
+                $('#add_data').attr('disabled', true);
+                $('#del_data').attr('disabled', true);
+                $('#data').remove();
+                var json_text =  '<div class="row" id="json-text" style="margin-left: 0px; margin-top: 10px">\n' +
+                '<textarea class="form-control" id="json-input" rows="8" style="width: 50%">{ }</textarea>\n</div>';
+                $('#form_request_data').append(json_text);
+
+            } else {
+                var table = '<table class="table table-hover table-condensed table-bordered table-striped" id="data">\n' +
+                    '                                <caption>'+$($("#DataType").val())+':</caption>\n' +
+                    '                                <thead>\n' +
+                    '                                <tr class="active text-success">\n' +
+                    '                                    <th width="5%" align="center">Option</th>\n' +
+                    '                                    <th width="30%" align="center">Key</th>\n' +
+                    '                                    <th width="5%" align="center">Data Type</th>\n' +
+                    '                                    <th width="60%" align="center">Value</th>\n' +
+                    '                                </tr>\n' +
+                    '                                </thead>\n' +
+                    '                                <tbody>\n' +
+                    '                                </tbody>\n' +
+                    '                            </table>';
+
+                $('#add_data').text('add ' + $('#DataType').val());
+                $('#del_data').text('del ' + $('#DataType').val());
+
+                $('#add_data').removeAttr("disabled");
+                $('#del_data').removeAttr("disabled");
+                $('#data').remove();
+                $('#json-text').remove();
+                $('#form_request_data').append(table);
+            }
+        })
+
+    </script>
+
+</body>
+</html>

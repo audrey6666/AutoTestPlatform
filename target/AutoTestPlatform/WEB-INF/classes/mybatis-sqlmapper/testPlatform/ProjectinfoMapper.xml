@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finup.dataeco.mapper.testPlatform.ProjectinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.finup.dataeco.model.testPlatform.Projectinfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="responsible_name" property="responsibleName" jdbcType="VARCHAR" />
+    <result column="test_user" property="testUser" jdbcType="VARCHAR" />
+    <result column="dev_user" property="devUser" jdbcType="VARCHAR" />
+    <result column="publish_app" property="publishApp" jdbcType="VARCHAR" />
+    <result column="simple_desc" property="simpleDesc" jdbcType="VARCHAR" />
+    <result column="other_desc" property="otherDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_time, update_time, project_name, responsible_name, test_user, dev_user, 
+    publish_app, simple_desc, other_desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from projectinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from projectinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.finup.dataeco.model.testPlatform.Projectinfo" >
+    insert into projectinfo (id, create_time, update_time, 
+      project_name, responsible_name, test_user, 
+      dev_user, publish_app, simple_desc, 
+      other_desc)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{projectName,jdbcType=VARCHAR}, #{responsibleName,jdbcType=VARCHAR}, #{testUser,jdbcType=VARCHAR}, 
+      #{devUser,jdbcType=VARCHAR}, #{publishApp,jdbcType=VARCHAR}, #{simpleDesc,jdbcType=VARCHAR}, 
+      #{otherDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.finup.dataeco.model.testPlatform.Projectinfo" >
+    insert into projectinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="projectName != null" >
+        project_name,
+      </if>
+      <if test="responsibleName != null" >
+        responsible_name,
+      </if>
+      <if test="testUser != null" >
+        test_user,
+      </if>
+      <if test="devUser != null" >
+        dev_user,
+      </if>
+      <if test="publishApp != null" >
+        publish_app,
+      </if>
+      <if test="simpleDesc != null" >
+        simple_desc,
+      </if>
+      <if test="otherDesc != null" >
+        other_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibleName != null" >
+        #{responsibleName,jdbcType=VARCHAR},
+      </if>
+      <if test="testUser != null" >
+        #{testUser,jdbcType=VARCHAR},
+      </if>
+      <if test="devUser != null" >
+        #{devUser,jdbcType=VARCHAR},
+      </if>
+      <if test="publishApp != null" >
+        #{publishApp,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleDesc != null" >
+        #{simpleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="otherDesc != null" >
+        #{otherDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.finup.dataeco.model.testPlatform.Projectinfo" >
+    update projectinfo
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectName != null" >
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibleName != null" >
+        responsible_name = #{responsibleName,jdbcType=VARCHAR},
+      </if>
+      <if test="testUser != null" >
+        test_user = #{testUser,jdbcType=VARCHAR},
+      </if>
+      <if test="devUser != null" >
+        dev_user = #{devUser,jdbcType=VARCHAR},
+      </if>
+      <if test="publishApp != null" >
+        publish_app = #{publishApp,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleDesc != null" >
+        simple_desc = #{simpleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="otherDesc != null" >
+        other_desc = #{otherDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.finup.dataeco.model.testPlatform.Projectinfo" >
+    update projectinfo
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      responsible_name = #{responsibleName,jdbcType=VARCHAR},
+      test_user = #{testUser,jdbcType=VARCHAR},
+      dev_user = #{devUser,jdbcType=VARCHAR},
+      publish_app = #{publishApp,jdbcType=VARCHAR},
+      simple_desc = #{simpleDesc,jdbcType=VARCHAR},
+      other_desc = #{otherDesc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
